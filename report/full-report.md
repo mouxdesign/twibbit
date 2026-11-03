@@ -1,3 +1,5 @@
+![We asked 10 bitcoin builders how they really build: Bitcoin Design Guide UXR Research Report](cover.png)
+
 
 # We asked 10 bitcoin builders how they really build
 

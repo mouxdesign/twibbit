@@ -1,3 +1,5 @@
+![We asked 10 bitcoin builders how they really build: Bitcoin Design Guide UXR Research Report](report/cover.png)
+
 # Twibbit
 
 An open-source UX agent for bitcoin builders, built in public. You hand it to the AI agent you already use, and it carries a UX designer's judgment about how bitcoin apps should look and behave.
