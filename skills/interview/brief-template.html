@@ -14,23 +14,12 @@ their labels in the same order as the panels.
 <title>Twibbit brief: {{PROJECT_NAME}}</title>
 <style>
   /* Dark stage, one accent, hairlines. Fonts fall back to system fonts so the file makes no external requests. */
-  :root { --bg:#000; --stage:#050505; --card:#161618; --card2:#1c1c1f; --line:rgba(255,255,255,.09); --text:#fff; --mid:#a3a3aa; --dim:#6c6c74; --accent:#6f63f5; --accent-soft:rgba(111,99,245,.18); --accent-mid:#cfc8fb; --lav:#ddd6fe; }
+  :root { --bg:#000; --stage:#0a0a0a; --card:#161618; --card2:#1c1c1f; --line:rgba(255,255,255,.09); --text:#fff; --mid:#a3a3aa; --dim:#6c6c74; --accent:#6f63f5; --accent-soft:rgba(111,99,245,.18); --accent-mid:#cfc8fb; --lav:#ddd6fe; }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; }
   .stage { position:relative; overflow:hidden; isolation:isolate; max-width:1040px; margin:24px auto; padding:72px 32px 48px; background:var(--stage); border-radius:32px; }
-  /* Holographic glow seen through a scale net, like the card texture. Violet and lavender only. */
-  .stage::before { content:""; position:absolute; left:0; right:0; top:0; height:460px; z-index:-2; pointer-events:none;
-    background:
-      radial-gradient(300px 120px at 22% 34% , rgba(167,139,250,.3), transparent 72%),
-      radial-gradient(340px 130px at 52% 18%, rgba(111,99,245,.32), transparent 72%),
-      radial-gradient(300px 120px at 82% 40%, rgba(221,214,254,.2), transparent 72%),
-      radial-gradient(240px 100px at 8% 8%, rgba(79,70,229,.34), transparent 72%),
-      radial-gradient(260px 110px at 94% 6%, rgba(139,92,246,.3), transparent 72%);
-    filter:blur(10px);
-    -webkit-mask-image:linear-gradient(#000 25%, transparent 90%); mask-image:linear-gradient(#000 25%, transparent 90%); }
-  .stage::after { content:""; position:absolute; left:0; right:0; top:0; height:460px; z-index:-1; pointer-events:none;
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M0 0l32 32L64 0M0 64l32-32 32 32' fill='none' stroke='%23000' stroke-width='1.2' stroke-opacity='.7'/%3E%3C/svg%3E"); background-size:64px 64px;
-    -webkit-mask-image:linear-gradient(#000 20%, transparent 85%); mask-image:linear-gradient(#000 20%, transparent 85%); }
+  /* Plain black with a very quiet texture. */
+  .stage::before { content:""; position:absolute; inset:0; z-index:-1; pointer-events:none; background-image:radial-gradient(circle, rgba(200,200,208,.22) 1px, transparent 1.6px); background-size:40px 40px; background-position:20px 20px; -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 0%, #000, transparent); mask-image:radial-gradient(ellipse 80% 70% at 50% 0%, #000, transparent); }
   header { position:relative; text-align:center; }
   .eyebrow { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#d4d2e4; margin:0 0 20px; }
   h1 { font-weight:400; font-size:clamp(44px,8vw,88px); line-height:1.02; letter-spacing:-.04em; margin:0 0 20px; }
