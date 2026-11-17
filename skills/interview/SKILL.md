@@ -1,6 +1,6 @@
 ---
 name: interview
-description: Start here. Use when a builder begins a Twibbit session, says they want help with their bitcoin or Lightning wallet's UX, or has not said what they need yet. Interviews the builder, saves their answers to TWIBBIT.md, shows them a visual summary, and routes them to the skill files that matter most.
+description: Start here. Use whenever a builder asks for help with the UX, design, branding, copy or review of a bitcoin or Lightning wallet, or mentions Twibbit, and has not yet been interviewed. Interviews the builder, saves their answers to TWIBBIT.md, shows them a visual summary, and routes them to the skill files that matter most.
 ---
 
 # Interview
@@ -71,11 +71,11 @@ Project brief created by the Twibbit interview skill. Other Twibbit skills read 
 
 ### Show a visual summary
 
-After saving `TWIBBIT.md`, write `twibbit-brief.html` next to it from [`brief-template.html`](brief-template.html). Fill in each placeholder with the builder's answers. It must be a single self-contained file with no external requests, so nothing leaves the builder's machine. Tell the builder to open it in their browser to confirm that their answers are right. Ask them to correct anything that is wrong, then update both files.
+After saving `TWIBBIT.md`, write `twibbit-brief.html` next to it from [`brief-template.html`](brief-template.html). Fill in each placeholder with the builder's answers. It must be a single self-contained file with no external requests, so nothing leaves the builder's machine. In the same message, tell the builder both files were saved, ask them to open `twibbit-brief.html` in their browser to confirm that their answers are right, and ask them to correct anything that is wrong. Then update both files. Capitalise the first letter of each answer you write into the files.
 
 ### Route the builder
 
-Choose one or two skills from this table. Tell the builder which you chose and why, in one or two sentences, then load those skill files and carry on in the same conversation. If the builder named a skill in question 9, use that one first.
+Once the builder has confirmed their answers, choose one or two skills from this table. Tell the builder which you chose and why, in one or two sentences, then load the first one and carry on in the same conversation. Do not stop to ask which they prefer unless the table gives two equally good options. If the builder named a skill in question 9, use that one first.
 
 | What the answers show | Skill |
 |---|---|
