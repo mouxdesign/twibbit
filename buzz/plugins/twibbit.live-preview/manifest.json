@@ -1,0 +1,6 @@
+{
+  "id": "twibbit.live-preview",
+  "name": "Live preview",
+  "apiVersion": 1,
+  "description": "Open a local page (a link to localhost) in a side panel beside the conversation, with browser controls."
+}
