@@ -39,12 +39,13 @@ Prefer one page? Read the [full report](report/full-report.md).
 
 - **Done:** stage one, the research interviews.
 - **Done:** stage two, processing the interviews into a high-level overview.
-- **To do:** stage three, building out a product vision and MVP spec.
+- **In progress:** stage three, building out a [product vision](PRODUCT_VISION.md) and MVP spec.
 - **To do:** stage four, building the MVP and getting it out into the ecosystem.
 - **To do:** the final stage, iterating on builder feedback.
 
 ## What is in this repo
 
+- [`PRODUCT_VISION.md`](PRODUCT_VISION.md) is the Twibbit product vision: who it's for, what it is and how the MVP works.
 - `report/` is the research report, one file per chapter plus the [full report](report/full-report.md).
 - `skills/` is where the Twibbit agent and its skill files live. Anyone can propose a new skill or an improvement to an existing one.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) explains how to contribute.
