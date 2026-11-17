@@ -28,6 +28,7 @@ The interview collects the answers below. Ask them in two short rounds, not one 
 8. **Do you already have branding?** Yes, partly, or no. Do you have a design system?
 9. **What would you like to work on today?** Jobs to be done, branding, copy, a UX review of a screen, or you are not sure.
 10. **Are there any screens or flows you most want reviewed?** Or should we start from the beginning of the user journey?
+11. **Are you using Buzz?** Yes or no. This is only used to offer the optional Buzz preview plugins after the interview. It does not change the routing.
 
 ## How to judge it
 
@@ -52,6 +53,7 @@ Project brief created by the Twibbit interview skill. Other Twibbit skills read 
 - Build status: new | existing
 - Platform: desktop | mobile
 - Coding tool (for learning only):
+- Uses Buzz: yes | no
 
 ## Direction
 - Audience:
@@ -72,6 +74,12 @@ Project brief created by the Twibbit interview skill. Other Twibbit skills read 
 ### Show a visual summary
 
 After saving `TWIBBIT.md`, write `twibbit-brief.html` next to it from [`brief-template.html`](brief-template.html). Fill in each placeholder with the builder's answers. It must be a single self-contained file with no external requests, so nothing leaves the builder's machine. In the same message, tell the builder both files were saved, ask them to open `twibbit-brief.html` in their browser to confirm that their answers are right, and ask them to correct anything that is wrong. Then update both files. Capitalise the first letter of each answer you write into the files.
+
+### Offer the Buzz live preview
+
+If the builder answered yes to question 11, point them to the Twibbit live preview plugin before routing. Say in two or three plain sentences: `twibbit.live-preview` is an optional Buzz plugin in `buzz/plugins/` of the Twibbit repo. It opens a `localhost` link in a side panel beside the conversation, so the `ux-review` page refreshes as it is written (macOS desktop). They install it in Buzz under Settings, Plugins, Manage plugins. Say that the plugin is early and optional. If they want something simpler, mention `twibbit.html-preview`, which opens a shared HTML file in a side panel without the live refresh.
+
+Do not try to install a plugin for them. Do not start the live preview server now. The `ux-review` skill asks before it starts it. If the answer is no, say nothing about the plugins. Keep it to one short message, then carry on to routing.
 
 ### Route the builder
 

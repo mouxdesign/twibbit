@@ -2,8 +2,10 @@
 <!--
 Twibbit brief template. The interview skill fills every {{PLACEHOLDER}} with the
 builder's answers and saves the result as twibbit-brief.html. Keep it a single
-file with no external requests. Escape any HTML in the answers.
-For "pill" values use class="pill" and for empty answers write "Not answered yet".
+file with no external requests and no scripts. Escape any HTML in the answers.
+For "chip" values use class="chip" and for empty answers write "Not answered yet".
+The three tabs switch with hidden radio inputs and CSS only. Keep the radios and
+their labels in the same order as the panels.
 -->
 <html lang="en">
 <head>
@@ -11,73 +13,104 @@ For "pill" values use class="pill" and for empty answers write "Not answered yet
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Twibbit brief: {{PROJECT_NAME}}</title>
 <style>
-  /* Palette and type follow twibbit.xyz. Fonts fall back to system fonts so the file makes no external requests. */
-  :root { --ink:#121212; --deep:#16151e; --deep2:#2a2938; --muted:#6a6880; --line:#e4e0fe; --bg:#f7f6ff; --card:#fff; --accent:#6f63f5; --accent-soft:#e4e0fe; --accent-mid:#cfc8fb; --on-deep:#cfcde0; --on-deep-muted:#a9a7bd; }
+  /* Dark stage, one accent, hairlines. Fonts fall back to system fonts so the file makes no external requests. */
+  :root { --bg:#000; --stage:#0b0b0d; --card:#161618; --card2:#1c1c1f; --line:rgba(255,255,255,.09); --text:#fff; --mid:#a3a3aa; --dim:#6c6c74; --accent:#6f63f5; --accent-soft:rgba(111,99,245,.18); --accent-mid:#cfc8fb; }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
-  .hero { background:var(--deep); color:#fff; padding:44px 24px 56px; }
-  .hero .in, .wrap { max-width:900px; margin:0 auto; }
-  .tag { display:inline-block; font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--accent-mid); border:1px solid var(--deep2); background:rgba(111,99,245,.18); padding:5px 12px; border-radius:999px; }
-  h1 { font:800 36px/1.15 "Plus Jakarta Sans","Inter",-apple-system,sans-serif; margin:18px 0 8px; letter-spacing:-.01em; }
-  .lede { color:var(--on-deep); margin:0; max-width:560px; }
-  .wrap { padding:0 24px 64px; margin-top:-28px; }
-  .panel { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:8px 24px 26px; box-shadow:0 10px 30px rgba(22,21,30,.06); }
-  h2 { display:flex; align-items:center; gap:10px; font:700 13px/1 "Plus Jakarta Sans","Inter",sans-serif; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin:30px 0 14px; }
-  h2 .n { display:inline-grid; place-items:center; width:24px; height:24px; border-radius:50%; background:var(--accent); color:#fff; font-size:12px; letter-spacing:0; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
-  .card { background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
-  .q { font-size:12.5px; color:var(--muted); margin:0 0 6px; }
-  .a { margin:0; font-weight:600; }
-  .pill { display:inline-block; background:var(--accent); color:#fff; padding:3px 12px; border-radius:999px; font-weight:600; font-size:14px; }
-  .route { background:var(--deep); color:#fff; border-radius:16px; padding:22px 24px; display:grid; gap:18px; }
-  .route .step { display:grid; grid-template-columns:36px 1fr; gap:14px; align-items:start; }
-  .route .num { width:36px; height:36px; border-radius:50%; background:var(--accent); display:grid; place-items:center; font:700 15px "Plus Jakarta Sans",sans-serif; }
-  .route strong { font:700 18px "Plus Jakarta Sans","Inter",sans-serif; }
-  .route p { margin:2px 0 0; }
-  .route .why { color:var(--on-deep); font-size:14.5px; }
-  .check { margin-top:26px; padding:14px 18px; border:1.5px dashed var(--accent-mid); border-radius:14px; background:#fbfaff; }
-  code { background:var(--accent-soft); padding:1px 6px; border-radius:6px; font:13px ui-monospace,Menlo,monospace; }
-  footer { margin-top:24px; color:var(--muted); font-size:13px; text-align:center; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; }
+  .stage { max-width:1040px; margin:24px auto; padding:72px 32px 48px; background:var(--stage); border-radius:32px; }
+  header { text-align:center; }
+  .eyebrow { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); margin:0 0 20px; }
+  h1 { font-weight:400; font-size:clamp(44px,8vw,88px); line-height:1.02; letter-spacing:-.04em; margin:0 0 20px; }
+  .lede { color:var(--mid); max-width:520px; margin:0 auto; }
+
+  /* Pill navigation, no scripts */
+  .tabs input { position:absolute; opacity:0; pointer-events:none; }
+  .pills { display:flex; justify-content:center; gap:4px; width:max-content; max-width:100%; margin:44px auto 10px; padding:5px; background:var(--card); border:1px solid var(--line); border-radius:999px; }
+  .pills label { padding:9px 20px; border-radius:999px; color:var(--dim); font-size:15px; cursor:pointer; transition:background .25s,color .25s; }
+  .pills label:hover { color:var(--mid); }
+  .hint { text-align:center; color:var(--dim); font-size:13px; margin:0 0 40px; }
+  .panel { display:none; }
+  #t1:checked ~ .panels .p1, #t2:checked ~ .panels .p2, #t3:checked ~ .panels .p3 { display:block; animation:fade .35s ease; }
+  #t1:checked ~ .pills label[for=t1], #t2:checked ~ .pills label[for=t2], #t3:checked ~ .pills label[for=t3] { background:#2a2a2e; color:#fff; }
+  #t1:focus-visible ~ .pills label[for=t1], #t2:focus-visible ~ .pills label[for=t2], #t3:focus-visible ~ .pills label[for=t3] { outline:2px solid var(--accent); outline-offset:2px; }
+  @keyframes fade { from { opacity:.3; } to { opacity:1; } }
+
+  /* Cards */
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+  .card { background:var(--card); border-radius:20px; padding:26px 28px; min-height:132px; }
+  .q { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); margin:0 0 14px; }
+  .a { margin:0; font-size:19px; line-height:1.4; letter-spacing:-.01em; color:#fff; }
+  .chip { display:inline-block; padding:5px 14px; border-radius:999px; border:1px solid rgba(111,99,245,.5); background:var(--accent-soft); color:var(--accent-mid); font-size:15px; }
+
+  /* Route rows */
+  .rows { max-width:760px; margin:0 auto; }
+  .row { display:grid; grid-template-columns:40px 1fr; gap:18px; padding:26px 0; border-top:1px solid var(--line); }
+  .row:last-child { border-bottom:1px solid var(--line); }
+  .num { width:32px; height:32px; border-radius:50%; background:var(--accent); color:#fff; display:grid; place-items:center; font-size:14px; }
+  .row strong { display:block; font-weight:500; font-size:20px; letter-spacing:-.01em; }
+  .row p { margin:6px 0 0; color:var(--mid); }
+
+  .check { max-width:760px; margin:48px auto 0; padding:18px 22px; border:1px solid var(--line); border-radius:16px; color:var(--mid); text-align:center; }
+  code { background:var(--card2); padding:1px 7px; border-radius:6px; font:13px ui-monospace,Menlo,monospace; color:var(--text); }
+  footer { margin-top:28px; color:var(--dim); font-size:13px; text-align:center; }
+  @media (max-width:560px) { .stage { margin:0; border-radius:0; padding:48px 18px 32px; } .pills label { padding:8px 14px; font-size:14px; } }
 </style>
 </head>
 <body>
-<div class="hero"><div class="in">
-  <span class="tag">Twibbit brief</span>
-  <h1>{{PROJECT_NAME}}</h1>
-  <p class="lede">Here is what you told us. Check each answer and tell your agent anything that is wrong.</p>
-</div></div>
-<div class="wrap"><div class="panel">
+<div class="stage">
+  <header>
+    <p class="eyebrow">Twibbit brief</p>
+    <h1>{{PROJECT_NAME}}</h1>
+    <p class="lede">Here is what you told us. Check each answer and tell your agent anything that is wrong.</p>
+  </header>
 
-  <h2><span class="n">1</span>Your project</h2>
-  <div class="grid">
-    <div class="card"><p class="q">What does your application do?</p><p class="a">{{WHAT_IT_DOES}}</p></div>
-    <div class="card"><p class="q">Wallet type</p><p class="a"><span class="pill">{{WALLET_TYPE}}</span></p></div>
-    <div class="card"><p class="q">New build or existing product?</p><p class="a"><span class="pill">{{BUILD_STATUS}}</span></p></div>
-    <div class="card"><p class="q">Platform</p><p class="a"><span class="pill">{{PLATFORM}}</span></p></div>
-    <div class="card"><p class="q">Coding tool</p><p class="a">{{CODING_TOOL}}</p></div>
-  </div>
+  <div class="tabs">
+    <input type="radio" name="tab" id="t1" checked>
+    <input type="radio" name="tab" id="t2">
+    <input type="radio" name="tab" id="t3">
+    <div class="pills">
+      <label for="t1">Project</label>
+      <label for="t2">Direction</label>
+      <label for="t3">Next steps</label>
+    </div>
+    <p class="hint">Tap a tab</p>
 
-  <h2><span class="n">2</span>Your direction</h2>
-  <div class="grid">
-    <div class="card"><p class="q">Who is it for?</p><p class="a">{{AUDIENCE}}</p></div>
-    <div class="card"><p class="q">Bitcoin experience of your audience</p><p class="a"><span class="pill">{{AUDIENCE_LEVEL}}</span></p></div>
-    <div class="card"><p class="q">How clear is your target audience?</p><p class="a"><span class="pill">{{AUDIENCE_CLARITY}}</span></p></div>
-    <div class="card"><p class="q">Branding</p><p class="a"><span class="pill">{{BRANDING}}</span></p></div>
-    <div class="card"><p class="q">Design system</p><p class="a"><span class="pill">{{DESIGN_SYSTEM}}</span></p></div>
-    <div class="card"><p class="q">What you want to work on today</p><p class="a">{{WORK_TODAY}}</p></div>
-    <div class="card"><p class="q">Screens or flows to review first</p><p class="a">{{SCREENS_FIRST}}</p></div>
-  </div>
+    <div class="panels">
+      <section class="panel p1">
+        <div class="grid">
+          <div class="card"><p class="q">What does your application do?</p><p class="a">{{WHAT_IT_DOES}}</p></div>
+          <div class="card"><p class="q">Wallet type</p><p class="a"><span class="chip">{{WALLET_TYPE}}</span></p></div>
+          <div class="card"><p class="q">New build or existing product?</p><p class="a"><span class="chip">{{BUILD_STATUS}}</span></p></div>
+          <div class="card"><p class="q">Platform</p><p class="a"><span class="chip">{{PLATFORM}}</span></p></div>
+          <div class="card"><p class="q">Coding tool</p><p class="a">{{CODING_TOOL}}</p></div>
+          <div class="card"><p class="q">Uses Buzz</p><p class="a">{{USES_BUZZ}}</p></div>
+        </div>
+      </section>
 
-  <h2><span class="n">3</span>Where Twibbit sends you next</h2>
-  <div class="route">
-    <div class="step"><div class="num">1</div><div><strong>{{ROUTE_1_NAME}}</strong><p class="why">{{ROUTE_1_WHY}}</p></div></div>
-    <!-- Second route is optional. Remove this whole step if there is only one. -->
-    <div class="step"><div class="num">2</div><div><strong>{{ROUTE_2_NAME}}</strong><p class="why">{{ROUTE_2_WHY}}</p></div></div>
+      <section class="panel p2">
+        <div class="grid">
+          <div class="card"><p class="q">Who is it for?</p><p class="a">{{AUDIENCE}}</p></div>
+          <div class="card"><p class="q">Bitcoin experience of your audience</p><p class="a"><span class="chip">{{AUDIENCE_LEVEL}}</span></p></div>
+          <div class="card"><p class="q">How clear is your target audience?</p><p class="a"><span class="chip">{{AUDIENCE_CLARITY}}</span></p></div>
+          <div class="card"><p class="q">Branding</p><p class="a"><span class="chip">{{BRANDING}}</span></p></div>
+          <div class="card"><p class="q">Design system</p><p class="a"><span class="chip">{{DESIGN_SYSTEM}}</span></p></div>
+          <div class="card"><p class="q">What you want to work on today</p><p class="a">{{WORK_TODAY}}</p></div>
+          <div class="card"><p class="q">Screens or flows to review first</p><p class="a">{{SCREENS_FIRST}}</p></div>
+        </div>
+      </section>
+
+      <section class="panel p3">
+        <div class="rows">
+          <div class="row"><div class="num">1</div><div><strong>{{ROUTE_1_NAME}}</strong><p>{{ROUTE_1_WHY}}</p></div></div>
+          <!-- Second route is optional. Remove this whole row if there is only one. -->
+          <div class="row"><div class="num">2</div><div><strong>{{ROUTE_2_NAME}}</strong><p>{{ROUTE_2_WHY}}</p></div></div>
+        </div>
+      </section>
+    </div>
   </div>
 
   <div class="check">Is anything here wrong? Tell your agent and it will update this page and <code>TWIBBIT.md</code>.</div>
-</div>
-<footer>Saved in <code>TWIBBIT.md</code>. Every Twibbit skill reads it first.</footer>
+  <footer>Saved in <code>TWIBBIT.md</code>. Every Twibbit skill reads it first.</footer>
 </div>
 </body>
 </html>
