@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+Twibbit brief template. The interview skill fills every {{PLACEHOLDER}} with the
+builder's answers and saves the result as twibbit-brief.html. Keep it a single
+file with no external requests. Escape any HTML in the answers.
+For "pill" values use class="pill" and for empty answers write "Not answered yet".
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twibbit brief: {{PROJECT_NAME}}</title>
+<style>
+  /* Palette and type follow twibbit.xyz. Fonts fall back to system fonts so the file makes no external requests. */
+  :root { --ink:#121212; --deep:#16151e; --deep2:#2a2938; --muted:#6a6880; --line:#e4e0fe; --bg:#f7f6ff; --card:#fff; --accent:#6f63f5; --accent-soft:#e4e0fe; --accent-mid:#cfc8fb; --on-deep:#cfcde0; --on-deep-muted:#a9a7bd; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+  .hero { background:var(--deep); color:#fff; padding:44px 24px 56px; }
+  .hero .in, .wrap { max-width:900px; margin:0 auto; }
+  .tag { display:inline-block; font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--accent-mid); border:1px solid var(--deep2); background:rgba(111,99,245,.18); padding:5px 12px; border-radius:999px; }
+  h1 { font:800 36px/1.15 "Plus Jakarta Sans","Inter",-apple-system,sans-serif; margin:18px 0 8px; letter-spacing:-.01em; }
+  .lede { color:var(--on-deep); margin:0; max-width:560px; }
+  .wrap { padding:0 24px 64px; margin-top:-28px; }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:8px 24px 26px; box-shadow:0 10px 30px rgba(22,21,30,.06); }
+  h2 { display:flex; align-items:center; gap:10px; font:700 13px/1 "Plus Jakarta Sans","Inter",sans-serif; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin:30px 0 14px; }
+  h2 .n { display:inline-grid; place-items:center; width:24px; height:24px; border-radius:50%; background:var(--accent); color:#fff; font-size:12px; letter-spacing:0; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+  .card { background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
+  .q { font-size:12.5px; color:var(--muted); margin:0 0 6px; }
+  .a { margin:0; font-weight:600; }
+  .pill { display:inline-block; background:var(--accent); color:#fff; padding:3px 12px; border-radius:999px; font-weight:600; font-size:14px; }
+  .route { background:var(--deep); color:#fff; border-radius:16px; padding:22px 24px; display:grid; gap:18px; }
+  .route .step { display:grid; grid-template-columns:36px 1fr; gap:14px; align-items:start; }
+  .route .num { width:36px; height:36px; border-radius:50%; background:var(--accent); display:grid; place-items:center; font:700 15px "Plus Jakarta Sans",sans-serif; }
+  .route strong { font:700 18px "Plus Jakarta Sans","Inter",sans-serif; }
+  .route p { margin:2px 0 0; }
+  .route .why { color:var(--on-deep); font-size:14.5px; }
+  .check { margin-top:26px; padding:14px 18px; border:1.5px dashed var(--accent-mid); border-radius:14px; background:#fbfaff; }
+  code { background:var(--accent-soft); padding:1px 6px; border-radius:6px; font:13px ui-monospace,Menlo,monospace; }
+  footer { margin-top:24px; color:var(--muted); font-size:13px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="hero"><div class="in">
+  <span class="tag">Twibbit brief</span>
+  <h1>{{PROJECT_NAME}}</h1>
+  <p class="lede">Here is what you told us. Check each answer and tell your agent anything that is wrong.</p>
+</div></div>
+<div class="wrap"><div class="panel">
+
+  <h2><span class="n">1</span>Your project</h2>
+  <div class="grid">
+    <div class="card"><p class="q">What does your application do?</p><p class="a">{{WHAT_IT_DOES}}</p></div>
+    <div class="card"><p class="q">Wallet type</p><p class="a"><span class="pill">{{WALLET_TYPE}}</span></p></div>
+    <div class="card"><p class="q">New build or existing product?</p><p class="a"><span class="pill">{{BUILD_STATUS}}</span></p></div>
+    <div class="card"><p class="q">Platform</p><p class="a"><span class="pill">{{PLATFORM}}</span></p></div>
+    <div class="card"><p class="q">Coding tool</p><p class="a">{{CODING_TOOL}}</p></div>
+  </div>
+
+  <h2><span class="n">2</span>Your direction</h2>
+  <div class="grid">
+    <div class="card"><p class="q">Who is it for?</p><p class="a">{{AUDIENCE}}</p></div>
+    <div class="card"><p class="q">Bitcoin experience of your audience</p><p class="a"><span class="pill">{{AUDIENCE_LEVEL}}</span></p></div>
+    <div class="card"><p class="q">How clear is your target audience?</p><p class="a"><span class="pill">{{AUDIENCE_CLARITY}}</span></p></div>
+    <div class="card"><p class="q">Branding</p><p class="a"><span class="pill">{{BRANDING}}</span></p></div>
+    <div class="card"><p class="q">Design system</p><p class="a"><span class="pill">{{DESIGN_SYSTEM}}</span></p></div>
+    <div class="card"><p class="q">What you want to work on today</p><p class="a">{{WORK_TODAY}}</p></div>
+    <div class="card"><p class="q">Screens or flows to review first</p><p class="a">{{SCREENS_FIRST}}</p></div>
+  </div>
+
+  <h2><span class="n">3</span>Where Twibbit sends you next</h2>
+  <div class="route">
+    <div class="step"><div class="num">1</div><div><strong>{{ROUTE_1_NAME}}</strong><p class="why">{{ROUTE_1_WHY}}</p></div></div>
+    <!-- Second route is optional. Remove this whole step if there is only one. -->
+    <div class="step"><div class="num">2</div><div><strong>{{ROUTE_2_NAME}}</strong><p class="why">{{ROUTE_2_WHY}}</p></div></div>
+  </div>
+
+  <div class="check">Is anything here wrong? Tell your agent and it will update this page and <code>TWIBBIT.md</code>.</div>
+</div>
+<footer>Saved in <code>TWIBBIT.md</code>. Every Twibbit skill reads it first.</footer>
+</div>
+</body>
+</html>
