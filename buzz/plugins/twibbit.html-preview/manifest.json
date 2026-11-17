@@ -1,0 +1,6 @@
+{
+  "id": "twibbit.html-preview",
+  "name": "HTML preview",
+  "apiVersion": 1,
+  "description": "Open an HTML file shared in a conversation in a side panel, with scripts turned off."
+}

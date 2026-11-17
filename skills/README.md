@@ -9,8 +9,9 @@ The first skills are built from the tier 1 jobs in the [research report](../repo
 | Skill | What it does |
 |---|---|
 | [`interview`](interview/SKILL.md) | Start here. Asks the builder ten questions, saves the answers to `TWIBBIT.md`, shows them a visual summary (`twibbit-brief.html`), and routes them to the skill files that matter most. |
+| [`ux-review`](ux-review/SKILL.md) | Give your AI agent a screen from your bitcoin or Lightning wallet and get back a UX review you can act on. It reads the words on every screen first, then checks the design against the Twibbit 10 UX principles and compares it with the Bitcoin Design Guide. You get one HTML page with before and after sketches, numbered changes, and a source tag on every suggestion. Optional live preview, including plugins for Buzz. |
 
-Coming next: `jobs-to-be-done`, `branding`, `copy` and `ux-review`.
+Coming next: `jobs-to-be-done`, `branding` and `copy`.
 
 ## Try it in Claude Code
 
