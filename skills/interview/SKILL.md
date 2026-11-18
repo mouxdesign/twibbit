@@ -16,20 +16,21 @@ The interview collects the answers below. Ask them in two short rounds, not one 
 ### Round 1: the project
 
 1. **What is the name of your wallet?** Ask this first. It becomes the title of the brief.
-2. **What does your application do?** Give me a high-level overview in a few sentences.
-3. **Is it a Lightning wallet, an on-chain wallet, or both?**
-4. **Is this a new build, or an existing product you want to protect and improve?**
-5. **What platform is it on?** A desktop application or a mobile app?
-6. **Which coding tool do you use?** For example Claude Code or Codex. This is only for learning how builders work. It does not change the routing.
+2. **Please attach a screenshot of your wallet.** We use it to find your main colour. Any screen works, ideally one with your header or main button visible.
+3. **What does your application do?** Give me a high-level overview in a few sentences.
+4. **Is it a Lightning wallet, an on-chain wallet, or both?**
+5. **Is this a new build, or an existing product you want to protect and improve?**
+6. **What platform is it on?** A desktop application or a mobile app?
+7. **Which coding tool do you use?** For example Claude Code or Codex. This is only for learning how builders work. It does not change the routing.
 
 ### Round 2: direction
 
-7. **Who is it for?** Beginners, technical users, activists, merchants, developers, or a specific community? How experienced are they with bitcoin?
-8. **How clear is your target audience?** Very clear, somewhat clear, or not yet.
-9. **Do you already have branding?** Yes, partly, or no. Do you have a design system?
-10. **What would you like to work on today?** Jobs to be done, branding, copy, a UX review of a screen, or you are not sure.
-11. **Are there any screens or flows you most want reviewed?** Or should we start from the beginning of the user journey?
-12. **Are you using Buzz?** Yes or no. This is only used to offer the optional Buzz preview plugins after the interview. It does not change the routing.
+8. **Who is it for?** Beginners, technical users, activists, merchants, developers, or a specific community? How experienced are they with bitcoin?
+9. **How clear is your target audience?** Very clear, somewhat clear, or not yet.
+10. **Do you already have branding?** Yes, partly, or no. Do you have a design system?
+11. **What would you like to work on today?** Jobs to be done, branding, copy, a UX review of a screen, or you are not sure.
+12. **Are there any screens or flows you most want reviewed?** Or should we start from the beginning of the user journey?
+13. **Are you using Buzz?** Yes or no. This is only used to offer the optional Buzz preview plugins after the interview. It does not change the routing.
 
 ## How to judge it
 
@@ -50,6 +51,7 @@ Project brief created by the Twibbit interview skill. Other Twibbit skills read 
 
 ## Project
 - Name:
+- Primary colour: #RRGGBB
 - What it does:
 - Wallet type: Lightning | on-chain | both
 - Build status: new | existing
@@ -73,13 +75,17 @@ Project brief created by the Twibbit interview skill. Other Twibbit skills read 
 - Anything else the builder said that later skills should know.
 ```
 
+### Find the primary colour
+
+Look at the screenshot from question 2 and pick the one main colour the wallet uses. That is usually the header bar, the main button or the highlight colour, not black, white or grey backgrounds. If you can, read the exact value from the image pixels. Otherwise estimate it and say it is an estimate. Save it in `TWIBBIT.md` as `Primary colour`. If the builder has no screenshot, ask for the colour in words or as a hex value, and if they cannot give one, keep the default purple `#6f63f5`.
+
 ### Show a visual summary
 
-After saving `TWIBBIT.md`, write `twibbit-brief.html` next to it from [`brief-template.html`](brief-template.html). Fill in each placeholder with the builder's answers. The wallet name goes in `{{PROJECT_NAME}}`, the large title at the top of the page. It must be a single self-contained file with no external requests, so nothing leaves the builder's machine. In the same message, tell the builder both files were saved, ask them to open `twibbit-brief.html` in their browser to confirm that their answers are right, and ask them to correct anything that is wrong. Then update both files. Capitalise the first letter of each answer you write into the files.
+After saving `TWIBBIT.md`, write `twibbit-brief.html` next to it from [`brief-template.html`](brief-template.html). Fill in each placeholder with the builder's answers. The wallet name goes in `{{PROJECT_NAME}}`, the large title at the top of the page. The primary colour goes in `{{ACCENT}}` (hex), `{{ACCENT_RGB}}` (the same colour as three numbers, for example `188,102,15`) and `{{ACCENT_LIGHT}}` (a lighter tint of it, used for text and icons on the dark page), so the brief uses the builder's own accent colour. It must be a single self-contained file with no external requests, so nothing leaves the builder's machine. In the same message, tell the builder both files were saved, ask them to open `twibbit-brief.html` in their browser to confirm that their answers are right, and ask them to correct anything that is wrong. Then update both files. Capitalise the first letter of each answer you write into the files.
 
 ### Offer the Buzz live preview
 
-If the builder answered yes to question 12, point them to the Twibbit live preview plugin before routing. Say in two or three plain sentences: `twibbit.live-preview` is an optional Buzz plugin in `buzz/plugins/` of the Twibbit repo. It opens a `localhost` link in a side panel beside the conversation, so the `ux-review` page refreshes as it is written (macOS desktop). They install it in Buzz under Settings, Plugins, Manage plugins. Say that the plugin is early and optional. If they want something simpler, mention `twibbit.html-preview`, which opens a shared HTML file in a side panel without the live refresh.
+If the builder answered yes to question 13, point them to the Twibbit live preview plugin before routing. Say in two or three plain sentences: `twibbit.live-preview` is an optional Buzz plugin in `buzz/plugins/` of the Twibbit repo. It opens a `localhost` link in a side panel beside the conversation, so the `ux-review` page refreshes as it is written (macOS desktop). They install it in Buzz under Settings, Plugins, Manage plugins. Say that the plugin is early and optional. If they want something simpler, mention `twibbit.html-preview`, which opens a shared HTML file in a side panel without the live refresh.
 
 Do not try to install a plugin for them. Do not start the live preview server now. The `ux-review` skill asks before it starts it. If the answer is no, say nothing about the plugins. Keep it to one short message, then carry on to routing.
 
@@ -102,6 +108,6 @@ Rules for routing:
 
 ## Sources
 
-- Questions 2, 3 (audience part), 5 and 11 come from the Stage 0 developer interview in the [VibeDesignSkillBitcoin](https://github.com/mouxdesign/VibeDesignSkillBitcoin) skill.
-- Questions 4, 8, 9 and 10 and the routing come from the Twibbit product flow (interview, direction, skill files, UX review) and the team call on 2026-11-16 about the MVP. Question 4 answers the tier 3 job in [report chapter 9](../../report/09-jobs-to-be-done-tiers-1-to-3.md): "I need the tool to ask whether I'm protecting an existing product or starting fresh."
+- Questions 3, 4 (audience part), 6 and 12 come from the Stage 0 developer interview in the [VibeDesignSkillBitcoin](https://github.com/mouxdesign/VibeDesignSkillBitcoin) skill.
+- Questions 5, 9, 10 and 11 and the routing come from the Twibbit product flow (interview, direction, skill files, UX review) and the team call on 2026-11-16 about the MVP. Question 5 answers the tier 3 job in [report chapter 9](../../report/09-jobs-to-be-done-tiers-1-to-3.md): "I need the tool to ask whether I'm protecting an existing product or starting fresh."
 - The target niche, Lightning and bitcoin wallets, comes from the [Twibbit product vision](../../PRODUCT_VISION.md).
