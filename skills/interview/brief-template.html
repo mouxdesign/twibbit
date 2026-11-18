@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <!--
 Twibbit brief template. The interview skill fills every {{PLACEHOLDER}} with the
-builder's answers and saves the result as twibbit-brief.html. {{PROJECT_NAME}} is the
-wallet name from question 1, shown in the page title and the large heading. {{ACCENT}}, {{ACCENT_RGB}} and {{ACCENT_LIGHT}} come from the primary colour in the screenshot (question 2). Keep it a single
-file with no external requests and no scripts. Escape any HTML in the answers.
-For "chip" values use class="chip" and for empty answers write "Not answered yet".
-The three tabs switch with hidden radio inputs and CSS only. Keep the radios and
-their labels in the same order as the panels.
+builder's answers and saves the result as twibbit-brief.html. One file, no external
+requests, no scripts. Escape any HTML in the answers. Capitalise the first letter of
+each answer. For empty answers write "Not answered yet".
+{{PROJECT_NAME}} is the wallet name (question 1). {{ACCENT}}, {{ACCENT_RGB}} and
+{{ACCENT_LIGHT}} come from the primary colour in the screenshot (question 2).
+{{AUDIENCE_PILLS}} is one <span class="chip sec"> per short phrase.
+The Next steps tab: the first card is the priority. Keep it as the skill the routing
+chose and fill its text. The three dashed cards are optional skills, in suggested
+order, each with a one line reason from the builder's answers. Skills that do not
+exist yet keep the "Coming soon" line.
+Write all copy short and direct. No emoji, no jokes, no softening.
 -->
 <html lang="en">
 <head>
@@ -14,47 +19,61 @@ their labels in the same order as the panels.
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Twibbit brief: {{PROJECT_NAME}}</title>
 <style>
-  /* Dark stage, one accent, hairlines. Fonts fall back to system fonts so the file makes no external requests. */
-  :root { --bg:#000; --stage:#0b0b0d; --card:#161618; --card2:#1c1c1f; --line:rgba(255,255,255,.09); --text:#fff; --mid:#a3a3aa; --dim:#6c6c74; --accent:{{ACCENT}}; --accent-rgb:{{ACCENT_RGB}}; --accent-soft:rgba(var(--accent-rgb),.18); --accent-mid:{{ACCENT_LIGHT}}; }
+  :root { --bg:#0a0a0a; --stage:#0a0a0a; --card:#161618; --card2:#1c1c1f; --line:rgba(255,255,255,.09); --text:#fff; --mid:#a3a3aa; --dim:#6c6c74; --accent:{{ACCENT}}; --accent-rgb:{{ACCENT_RGB}}; --accent-soft:rgba(var(--accent-rgb),.18); --accent-mid:{{ACCENT_LIGHT}}; --icon:{{ACCENT_LIGHT}}; --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; --mono:ui-monospace,Menlo,"SF Mono",monospace; }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; }
-  .stage { max-width:1040px; margin:24px auto; padding:72px 32px 48px; background:var(--stage); border-radius:32px; }
+  body { margin:0; background:radial-gradient(circle, rgba(255,255,255,.16) 1.1px, transparent 1.6px) 0 0/32px 32px, var(--bg); color:var(--text); font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; }
+  .stage { max-width:1040px; margin:24px auto; padding:72px 32px 48px; background:radial-gradient(circle, rgba(255,255,255,.16) 1.1px, transparent 1.6px) 0 0/32px 32px, var(--stage); border-radius:32px; }
   header { text-align:center; }
   .eyebrow { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); margin:0 0 20px; }
-  h1 { font-weight:400; font-size:clamp(44px,8vw,88px); line-height:1.02; letter-spacing:-.04em; margin:0 0 20px; }
+  h1 { font:400 clamp(44px,8vw,88px)/1.02 var(--serif); letter-spacing:-.03em; margin:0 0 20px; }
   .lede { color:var(--mid); max-width:520px; margin:0 auto; }
 
-  /* Pill navigation, no scripts */
   .tabs input { position:absolute; opacity:0; pointer-events:none; }
-  .pills { display:flex; justify-content:center; gap:4px; width:max-content; max-width:100%; margin:44px auto 10px; padding:5px; background:var(--card); border:1px solid var(--line); border-radius:999px; }
-  .pills label { padding:9px 20px; border-radius:999px; color:var(--dim); font-size:15px; cursor:pointer; transition:background .25s,color .25s; }
+  .pills { position:sticky; top:16px; z-index:10; display:flex; justify-content:center; gap:4px; width:max-content; max-width:100%; margin:44px auto 10px; padding:5px; background:rgba(255,255,255,.07); -webkit-backdrop-filter:blur(22px) saturate(1.6); backdrop-filter:blur(22px) saturate(1.6); border:1px solid rgba(255,255,255,.14); border-radius:999px; box-shadow:0 12px 40px rgba(0,0,0,.55), 0 0 28px rgba(var(--accent-rgb),.18), inset 0 1px 0 rgba(255,255,255,.18); }
+  .pills label { display:flex; align-items:center; gap:8px; padding:9px 20px; border-radius:999px; color:var(--mid); font-size:15px; cursor:pointer; transition:background .25s,color .25s,box-shadow .25s; }
+  .pills label svg { width:18px; height:18px; stroke:var(--icon); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .pills label:hover { color:var(--mid); }
   .hint { text-align:center; color:var(--dim); font-size:13px; margin:0 0 40px; }
   .panel { display:none; }
   #t1:checked ~ .panels .p1, #t2:checked ~ .panels .p2, #t3:checked ~ .panels .p3 { display:block; animation:fade .35s ease; }
-  #t1:checked ~ .pills label[for=t1], #t2:checked ~ .pills label[for=t2], #t3:checked ~ .pills label[for=t3] { background:#2a2a2e; color:#fff; }
+  #t1:checked ~ .pills label[for=t1], #t2:checked ~ .pills label[for=t2], #t3:checked ~ .pills label[for=t3] { background:rgba(255,255,255,.14); color:#fff; box-shadow:0 4px 14px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.22); }
   #t1:focus-visible ~ .pills label[for=t1], #t2:focus-visible ~ .pills label[for=t2], #t3:focus-visible ~ .pills label[for=t3] { outline:2px solid var(--accent); outline-offset:2px; }
   @keyframes fade { from { opacity:.3; } to { opacity:1; } }
 
-  /* Cards */
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
-  .card { background:var(--card); border-radius:20px; padding:26px 28px; min-height:132px; }
-  .q { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); margin:0 0 14px; }
-  .a { margin:0; font-size:19px; line-height:1.4; letter-spacing:-.01em; color:#fff; }
-  .chip { display:inline-block; padding:5px 14px; border-radius:999px; border:1px solid rgba(var(--accent-rgb),.5); background:var(--accent-soft); color:var(--accent-mid); font-size:15px; }
+  /* Every box is the same size */
+  .grid { display:grid; grid-template-columns:repeat(2,1fr); grid-auto-rows:260px; gap:16px; }
+  .card { position:relative; background:var(--card); border-radius:20px; padding:24px 28px; overflow:hidden; }
+  .head { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+  .ic { width:40px; height:40px; flex:none; border-radius:12px; background:var(--accent-soft); display:grid; place-items:center; }
+  .ic svg { width:20px; height:20px; stroke:var(--icon); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .t { margin:0; font:600 19px/1.25 "Inter",-apple-system,sans-serif; letter-spacing:-.01em; color:#fff; }
+  .d { margin:0 0 14px; color:var(--mid); font-size:15px; line-height:1.45; }
+  .v { margin:0; font-size:17px; line-height:1.4; color:#fff; }
+  .v.mono { font:500 16px/1.4 var(--mono); }
+  .li { display:flex; align-items:center; gap:12px; margin:8px 0 0; font-size:16px; color:#fff; }
+  .li svg { width:18px; height:18px; flex:none; stroke:var(--icon); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .chip { display:inline-block; padding:5px 14px; border-radius:999px; border:1px solid rgba(var(--accent-rgb),.5); background:var(--accent-soft); color:var(--accent-mid); font-size:15px; font-weight:500; }
 
-  /* Route rows */
-  .rows { max-width:760px; margin:0 auto; }
-  .row { display:grid; grid-template-columns:40px 1fr; gap:18px; padding:26px 0; border-top:1px solid var(--line); }
-  .row:last-child { border-bottom:1px solid var(--line); }
-  .num { width:32px; height:32px; border-radius:50%; background:var(--accent); color:#fff; display:grid; place-items:center; font-size:14px; }
-  .row strong { display:block; font-weight:500; font-size:20px; letter-spacing:-.01em; }
-  .row p { margin:6px 0 0; color:var(--mid); }
-
+  .float { position:sticky; bottom:20px; z-index:10; display:block; margin:28px auto 0; width:min(100%,460px); padding:16px; text-align:center; font-weight:600; font-size:17px; color:#fff; cursor:pointer; background:rgba(255,255,255,.08); -webkit-backdrop-filter:blur(22px) saturate(1.6); backdrop-filter:blur(22px) saturate(1.6); border:1px solid rgba(255,255,255,.14); border-radius:999px; box-shadow:0 12px 40px rgba(0,0,0,.55), 0 0 28px rgba(var(--accent-rgb),.18), inset 0 1px 0 rgba(255,255,255,.18); }
+  .float:hover { background:rgba(255,255,255,.13); }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip.sec { border-color:rgba(245,185,66,.55); background:rgba(245,185,66,.15); color:#fbdc9a; }
+  /* Selected state and tags */
+  .card.selected { box-shadow:0 0 0 1.5px var(--accent), 0 0 36px rgba(var(--accent-rgb),.35); background:color-mix(in srgb, var(--accent) 14%, #161618); }
+  .tag { margin-left:auto; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:600; letter-spacing:.02em; background:var(--accent); color:#fff; }
+  .tag.amber { background:#2c2c30; color:#e8e8ec; border:1px solid rgba(255,255,255,.12); }
+  .chip { border-color:transparent; background:#eeeee8; color:#111; font-weight:600; padding:6px 16px; }
+  .chip.sec { border-color:rgba(255,255,255,.12); background:#2c2c30; color:#e8e8ec; }
+  .intro { text-align:center; color:var(--mid); margin:0 0 22px; }
+  .btn { display:inline-block; margin-top:4px; padding:12px 26px; border-radius:999px; background:#eeeee8; color:#111; font-weight:600; font-size:16px; }
+  .card.optional { border:1px dashed rgba(255,255,255,.14); background:#161618; }
+  .card.optional .t { color:#d6d6dc; }
+  .card.optional .tag { background:#2c2c30; color:#e8e8ec; }
+  .card.optional .ic { opacity:.8; }
   .check { max-width:760px; margin:48px auto 0; padding:18px 22px; border:1px solid var(--line); border-radius:16px; color:var(--mid); text-align:center; }
-  code { background:var(--card2); padding:1px 7px; border-radius:6px; font:13px ui-monospace,Menlo,monospace; color:var(--text); }
+  code { background:var(--card2); padding:1px 7px; border-radius:6px; font:13px var(--mono); color:var(--text); }
   footer { margin-top:28px; color:var(--dim); font-size:13px; text-align:center; }
-  @media (max-width:560px) { .stage { margin:0; border-radius:0; padding:48px 18px 32px; } .pills label { padding:8px 14px; font-size:14px; } }
+  @media (max-width:640px) { .grid { grid-template-columns:1fr; } .stage { margin:0; border-radius:0; padding:48px 18px 32px; } .pills label { padding:8px 12px; font-size:14px; } .pills label svg { display:none; } }
 </style>
 </head>
 <body>
@@ -62,7 +81,7 @@ their labels in the same order as the panels.
   <header>
     <p class="eyebrow">Twibbit brief</p>
     <h1>{{PROJECT_NAME}}</h1>
-    <p class="lede">Here is what you told us. Check each answer and tell your agent anything that is wrong.</p>
+    <p class="lede">Here's what you told us. Check each answer. Tell your agent what's wrong.</p>
   </header>
 
   <div class="tabs">
@@ -70,47 +89,20 @@ their labels in the same order as the panels.
     <input type="radio" name="tab" id="t2">
     <input type="radio" name="tab" id="t3">
     <div class="pills">
-      <label for="t1">Project</label>
-      <label for="t2">Direction</label>
-      <label for="t3">Next steps</label>
+      <label for="t1"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Project</label>
+      <label for="t2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg>Direction</label>
+      <label for="t3"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Next steps</label>
     </div>
     <p class="hint">Tap a tab</p>
 
     <div class="panels">
-      <section class="panel p1">
-        <div class="grid">
-          <div class="card"><p class="q">What does your application do?</p><p class="a">{{WHAT_IT_DOES}}</p></div>
-          <div class="card"><p class="q">Wallet type</p><p class="a"><span class="chip">{{WALLET_TYPE}}</span></p></div>
-          <div class="card"><p class="q">New build or existing product?</p><p class="a"><span class="chip">{{BUILD_STATUS}}</span></p></div>
-          <div class="card"><p class="q">Platform</p><p class="a"><span class="chip">{{PLATFORM}}</span></p></div>
-          <div class="card"><p class="q">Coding tool</p><p class="a">{{CODING_TOOL}}</p></div>
-          <div class="card"><p class="q">Uses Buzz</p><p class="a">{{USES_BUZZ}}</p></div>
-        </div>
-      </section>
-
-      <section class="panel p2">
-        <div class="grid">
-          <div class="card"><p class="q">Who is it for?</p><p class="a">{{AUDIENCE}}</p></div>
-          <div class="card"><p class="q">Bitcoin experience of your audience</p><p class="a"><span class="chip">{{AUDIENCE_LEVEL}}</span></p></div>
-          <div class="card"><p class="q">How clear is your target audience?</p><p class="a"><span class="chip">{{AUDIENCE_CLARITY}}</span></p></div>
-          <div class="card"><p class="q">Branding</p><p class="a"><span class="chip">{{BRANDING}}</span></p></div>
-          <div class="card"><p class="q">Design system</p><p class="a"><span class="chip">{{DESIGN_SYSTEM}}</span></p></div>
-          <div class="card"><p class="q">What you want to work on today</p><p class="a">{{WORK_TODAY}}</p></div>
-          <div class="card"><p class="q">Screens or flows to review first</p><p class="a">{{SCREENS_FIRST}}</p></div>
-        </div>
-      </section>
-
-      <section class="panel p3">
-        <div class="rows">
-          <div class="row"><div class="num">1</div><div><strong>{{ROUTE_1_NAME}}</strong><p>{{ROUTE_1_WHY}}</p></div></div>
-          <!-- Second route is optional. Remove this whole row if there is only one. -->
-          <div class="row"><div class="num">2</div><div><strong>{{ROUTE_2_NAME}}</strong><p>{{ROUTE_2_WHY}}</p></div></div>
-        </div>
-      </section>
+      <section class="panel p1"><div class="grid"><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="3"/><path d="M10.5 18h3"/></svg></span><h3 class="t">What it does</h3></div><p class="d">Short overview of your app.</p><p class="v">{{WHAT_IT_DOES}}</p></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><path d="M13 3L6 13h5l-1 8 7-10h-5z"/></svg></span><h3 class="t">Wallet type</h3></div><p class="d">Lightning, on-chain or both.</p><span class="chip">{{WALLET_TYPE}}</span></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><h3 class="t">Build status</h3></div><p class="d">New build or existing product.</p><span class="chip">{{BUILD_STATUS}}</span></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg></span><h3 class="t">Platform</h3></div><p class="d">Where people use it.</p><span class="chip">{{PLATFORM}}</span></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4"/></svg></span><h3 class="t">Coding tool</h3></div><p class="d">Only to learn how builders work.</p><p class="v mono">{{CODING_TOOL}}</p></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M7 8h10v3a5 5 0 01-10 0zM12 16v5"/></svg></span><h3 class="t">Uses Buzz</h3></div><p class="d">Decides if we mention the Buzz plugins.</p><p class="v">{{USES_BUZZ}}</p></div></div><label class="float" for="t2">Next: Direction</label></section>
+      <section class="panel p2"><div class="grid"><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><path d="M3.5 19a5.5 5.5 0 0111 0M16 6.5a3 3 0 010 5.5M17.5 14.5a5 5 0 013 4.5"/></svg></span><h3 class="t">Who it is for</h3></div><p class="d">Who you build this for.</p><div class="chips">{{AUDIENCE_PILLS}}</div></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><path d="M5 19V13M12 19V8M19 19V4"/></svg></span><h3 class="t">Bitcoin experience</h3></div><p class="d">How well your audience knows bitcoin.</p><span class="chip sec">{{AUDIENCE_LEVEL}}</span></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg></span><h3 class="t">Audience clarity</h3></div><p class="d">How clearly you can describe them.</p><span class="chip sec">{{AUDIENCE_CLARITY}}</span></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><path d="M4 20c3 0 4-1.5 4-3.5L18 6l-2-2L6 14c-2 0-2 3-2 6z"/></svg></span><h3 class="t">Branding</h3></div><p class="d">Your colours, logo and look.</p><span class="chip">{{BRANDING}}</span></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r="1"/><circle cx="14" cy="9" r="1"/><circle cx="15" cy="14" r="1"/></svg></span><h3 class="t">About the branding</h3></div><p class="d">What you have so far.</p><p class="v">{{BRANDING_DETAIL}}</p></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg></span><h3 class="t">Design system</h3></div><p class="d">A shared set of components and rules.</p><span class="chip">{{DESIGN_SYSTEM}}</span></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></span><h3 class="t">Today's focus</h3></div><p class="d">What you want to work on now.</p><p class="v">{{WORK_TODAY}}</p></div><div class="card"><div class="head"><span class="ic"><svg  viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg></span><h3 class="t">First screens to review</h3><span class="tag amber">Open</span></div><p class="d">Where the review starts.</p><p class="v">{{SCREENS_FIRST}}</p></div></div><label class="float" for="t3">Next: Next steps</label></section>
+      <section class="panel p3"><p class="intro">Based on your answers, here's what we suggest. In this order.</p><div class="grid"><div class="card selected"><div class="head"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><h3 class="t">UX review</h3><span class="tag">1 · Priority</span></div><p class="d">Share a few screens. Get a review against the Twibbit 10 principles and the Bitcoin Design Guide.</p><span class="btn">Share your screens</span></div><div class="card optional"><div class="head"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg></span><h3 class="t">Jobs to be done</h3><span class="tag">2 · Optional</span></div><p class="d">Find out who your audience is and what they use {{PROJECT_NAME}} for.</p><div class="li"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg>{{WHY_JTBD}}</div><div class="li"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/></svg>Coming soon</div></div><div class="card optional"><div class="head"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20c3 0 4-1.5 4-3.5L18 6l-2-2L6 14c-2 0-2 3-2 6z"/></svg></span><h3 class="t">Branding</h3><span class="tag">3 · Optional</span></div><p class="d">Shape how {{PROJECT_NAME}} looks and feels.</p><div class="li"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg>{{WHY_BRANDING}}</div><div class="li"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/></svg>Coming soon</div></div><div class="card optional"><div class="head"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 7l3 3"/></svg></span><h3 class="t">Copy</h3><span class="tag">4 · Optional</span></div><p class="d">Check and write the words in your wallet.</p><div class="li"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg>{{WHY_COPY}}</div><div class="li"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/></svg>Coming soon</div></div></div><label class="float" for="t1">Back to Project</label></section>
     </div>
   </div>
 
-  <div class="check">Is anything here wrong? Tell your agent and it will update this page and <code>TWIBBIT.md</code>.</div>
+  <div class="check">Anything wrong? Tell your agent. It updates this page and <code>TWIBBIT.md</code>.</div>
   <footer>Saved in <code>TWIBBIT.md</code>. Every Twibbit skill reads it first.</footer>
 </div>
 </body>
