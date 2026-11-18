@@ -81,7 +81,21 @@ Look at the screenshot from question 2 and pick the one main colour the wallet u
 
 ### Show a visual summary
 
-After saving `TWIBBIT.md`, write `twibbit-brief.html` next to it from [`brief-template.html`](brief-template.html). Fill in each placeholder with the builder's answers. The wallet name goes in `{{PROJECT_NAME}}`, the large title at the top of the page. The primary colour goes in `{{ACCENT}}` (hex), `{{ACCENT_RGB}}` (the same colour as three numbers, for example `188,102,15`) and `{{ACCENT_LIGHT}}` (a lighter tint of it, used for text and icons on the dark page), so the brief uses the builder's own accent colour. It must be a single self-contained file with no external requests, so nothing leaves the builder's machine. In the same message, tell the builder both files were saved, ask them to open `twibbit-brief.html` in their browser to confirm that their answers are right, and ask them to correct anything that is wrong. Then update both files. Capitalise the first letter of each answer you write into the files.
+After saving `TWIBBIT.md`, write `twibbit-brief.html` next to it from [`brief-template.html`](brief-template.html). Fill in each placeholder with the builder's answers. The wallet name goes in `{{PROJECT_NAME}}`, the large title at the top of the page. The primary colour goes in `{{ACCENT}}` (hex), `{{ACCENT_RGB}}` (the same colour as three numbers, for example `188,102,15`) and `{{ACCENT_LIGHT}}` (a lighter tint of it, used for text and icons on the dark page), so the brief uses the builder's own accent colour. It must be a single self-contained file with no external requests, so nothing leaves the builder's machine. Capitalise the first letter of each answer you write into the files.
+
+Then send this message, with real links to both files. Keep the wording and the order. Fill in nothing else.
+
+> Thanks. That's everything I need.
+>
+> Here's a summary of your interview:
+> - `twibbit-brief.html` opens a page with your answers.
+> - `TWIBBIT.md` is the same information as plain text. Every Twibbit skill reads it first.
+>
+> Open the page and check each answer. Tell me what's wrong, and I'll update both files.
+>
+> When everything is right, say so. Then we move on to your next steps.
+
+Wait for the builder to say it is right. Do not route until they do. If they correct something, update both files and reply in one short line, for example: "Got it. I changed \"Branding\" to \"Yes\". Both files are updated. Check the page again, or tell me if it's right." Repeat until they confirm.
 
 ### Offer the Buzz live preview
 
@@ -91,19 +105,40 @@ Do not try to install a plugin for them. Do not start the live preview server no
 
 ### Route the builder
 
-Once the builder has confirmed their answers, choose one or two skills from this table. Tell the builder which you chose and why, in one or two sentences, then load the first one and carry on in the same conversation. Do not stop to ask which they prefer unless the table gives two equally good options. If the builder named a skill in question 9, use that one first.
+Do this only after the builder has said the brief is right. Choose one priority skill and rank the others from this table.
 
-| What the answers show | Skill |
-|---|---|
-| Audience is "not yet" or only somewhat clear | `jobs-to-be-done` |
-| No branding, no design system, or the builder is unsure how the product should look or feel | `branding` |
-| The builder wants their words checked or written, or copy is unclear | `copy` |
-| The builder has screens and wants feedback, or wants a UX review only | `ux-review` |
+| What the answers show | Skill | Card text | Button |
+|---|---|---|---|
+| Audience is "not yet" or only somewhat clear | `jobs-to-be-done` | Find out who your audience is and what they use {name} for. | Start the interview |
+| No branding, no design system, or the builder is unsure how the product should look or feel | `branding` | Shape how {name} looks and feels. | Start branding |
+| The builder wants their words checked or written, or copy is unclear | `copy` | Check and write the words in your wallet. | Share your text |
+| The builder has screens and wants feedback, or wants a UX review only | `ux-review` | Share a few screens. Get a review against the Twibbit 10 principles and the Bitcoin Design Guide. | Share your screens |
+
+Order:
+1. The skill the builder named in question 11 goes first.
+2. The rest follow in this order: `jobs-to-be-done`, `branding`, `copy`, `ux-review`.
+3. A skill that does not exist yet in the builder's Twibbit folder can never be first. The priority is the first skill in the order that exists. Keep the missing ones in the list, marked "Coming soon".
+4. If the builder only wants a UX review, the priority is `ux-review`. Keep the others as optional.
+
+The brief page already shows this order on its Next steps tab: four cards, card 1 is the priority, cards 2 to 4 are optional, each with a one line reason from the builder's answers. Fill it in when you write the brief, and fix it if the builder's corrections change the order. For a skill with no reason in the answers, write one line on what it does.
+
+Then send this message. Keep the wording and the order. Change only the skill names, the reasons and the last line:
+
+> Good. Here's what I suggest, in this order:
+>
+> 1. **[Priority skill] (start here).** [One sentence: why, and what happens next.]
+> 2. **[Skill] (optional).** [One sentence reason.]
+> 3. **[Skill] (optional, coming soon).** [One sentence reason.]
+>
+> Your full list is on the Next steps tab of `twibbit-brief.html`.
+>
+> Let's go into the [priority skill] now. Should we get started?
+
+Link the file. Say "(optional, coming soon)" for a skill that does not exist yet. List at most three skills. When the builder says yes, load the priority skill and start it in the same conversation. Its first message is its own. For `ux-review` it asks for the first screen and what it is, for example welcome, home or receive.
 
 Rules for routing:
-- Pick at most two. Do not list every skill.
-- If a skill file does not exist yet in the builder's Twibbit folder, say it is coming soon and offer the next best one.
-- If the builder says they only want a UX review, skip the rest and go straight to `ux-review`.
+- Do not ask which skill the builder prefers. If the table gives two equally good options, pick by the order above.
+- If the builder says no or wants a different skill, start the one they ask for, if it exists.
 - Never claim an app is trustworthy or safe because of the interview. The interview only gathers context.
 
 ## Sources
