@@ -2,7 +2,7 @@
 <!--
 Twibbit brief template. The interview skill fills every {{PLACEHOLDER}} with the
 builder's answers and saves the result as twibbit-brief.html. {{PROJECT_NAME}} is the
-wallet name from question 1, shown in the page title and the large heading. Keep it a single
+wallet name from question 1, shown in the page title and the large heading. {{ACCENT}}, {{ACCENT_RGB}} and {{ACCENT_LIGHT}} come from the primary colour in the screenshot (question 2). Keep it a single
 file with no external requests and no scripts. Escape any HTML in the answers.
 For "chip" values use class="chip" and for empty answers write "Not answered yet".
 The three tabs switch with hidden radio inputs and CSS only. Keep the radios and
@@ -15,7 +15,7 @@ their labels in the same order as the panels.
 <title>Twibbit brief: {{PROJECT_NAME}}</title>
 <style>
   /* Dark stage, one accent, hairlines. Fonts fall back to system fonts so the file makes no external requests. */
-  :root { --bg:#000; --stage:#0b0b0d; --card:#161618; --card2:#1c1c1f; --line:rgba(255,255,255,.09); --text:#fff; --mid:#a3a3aa; --dim:#6c6c74; --accent:#6f63f5; --accent-soft:rgba(111,99,245,.18); --accent-mid:#cfc8fb; }
+  :root { --bg:#000; --stage:#0b0b0d; --card:#161618; --card2:#1c1c1f; --line:rgba(255,255,255,.09); --text:#fff; --mid:#a3a3aa; --dim:#6c6c74; --accent:{{ACCENT}}; --accent-rgb:{{ACCENT_RGB}}; --accent-soft:rgba(var(--accent-rgb),.18); --accent-mid:{{ACCENT_LIGHT}}; }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; }
   .stage { max-width:1040px; margin:24px auto; padding:72px 32px 48px; background:var(--stage); border-radius:32px; }
@@ -41,7 +41,7 @@ their labels in the same order as the panels.
   .card { background:var(--card); border-radius:20px; padding:26px 28px; min-height:132px; }
   .q { font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--dim); margin:0 0 14px; }
   .a { margin:0; font-size:19px; line-height:1.4; letter-spacing:-.01em; color:#fff; }
-  .chip { display:inline-block; padding:5px 14px; border-radius:999px; border:1px solid rgba(111,99,245,.5); background:var(--accent-soft); color:var(--accent-mid); font-size:15px; }
+  .chip { display:inline-block; padding:5px 14px; border-radius:999px; border:1px solid rgba(var(--accent-rgb),.5); background:var(--accent-soft); color:var(--accent-mid); font-size:15px; }
 
   /* Route rows */
   .rows { max-width:760px; margin:0 auto; }
