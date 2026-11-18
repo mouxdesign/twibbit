@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UX review: Blixt</title>
+<style>
+  :root { --bg:#0a0a0a; --card:#161618; --card2:#1c1c1f; --line:rgba(255,255,255,.09); --text:#fff; --mid:#a3a3aa; --dim:#6c6c74; --accent:#bc660f; --accent-rgb:188,102,15; --icon:#e8a050; --chip:#2c2c30; --offwhite:#eeeee8; --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; --mono:ui-monospace,Menlo,"SF Mono",monospace; --dots:radial-gradient(circle, rgba(255,255,255,.16) 1.1px, transparent 1.6px) 0 0/32px 32px; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--dots), var(--bg); color:var(--text); font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; -webkit-font-smoothing:antialiased; }
+  .stage { max-width:1040px; margin:24px auto; padding:72px 32px 48px; background:var(--dots), var(--bg); border-radius:32px; }
+  header { text-align:center; }
+  .eyebrow { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--dim); margin:0 0 20px; }
+  h1 { font:400 clamp(44px,8vw,88px)/1.02 var(--serif); letter-spacing:-.03em; margin:0 0 20px; }
+  .lede { color:var(--mid); max-width:560px; margin:0 auto; }
+  .meta { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:22px; }
+
+  /* Pills and tags: neutral, so the wallet's own colours stay the only colour */
+  .chip { display:inline-block; padding:5px 14px; border-radius:999px; background:var(--chip); color:#e8e8ec; font-size:14px; font-weight:500; border:1px solid rgba(255,255,255,.12); }
+  .chip.light { background:var(--offwhite); color:#111; border-color:transparent; font-weight:600; }
+  .src { display:inline-block; padding:3px 12px; border-radius:999px; font-size:12.5px; font-weight:600; text-decoration:none; }
+  .src.guide { background:var(--offwhite); color:#111; }
+  .src.p { background:var(--chip); color:#e8e8ec; border:1px solid rgba(255,255,255,.12); }
+  .src.ai { background:transparent; color:#c9c9d0; border:1px dashed rgba(255,255,255,.3); }
+
+  .tabs input { position:absolute; opacity:0; pointer-events:none; }
+  .pills { position:sticky; top:16px; z-index:10; display:flex; justify-content:center; gap:4px; width:max-content; max-width:100%; margin:44px auto 10px; padding:5px; background:rgba(255,255,255,.07); -webkit-backdrop-filter:blur(22px) saturate(1.6); backdrop-filter:blur(22px) saturate(1.6); border:1px solid rgba(255,255,255,.14); border-radius:999px; box-shadow:0 12px 40px rgba(0,0,0,.55), 0 0 28px rgba(var(--accent-rgb),.18), inset 0 1px 0 rgba(255,255,255,.18); }
+  .pills label { display:flex; align-items:center; gap:8px; padding:9px 20px; border-radius:999px; color:var(--mid); font-size:15px; cursor:pointer; transition:background .25s,color .25s,box-shadow .25s; }
+  .pills label svg { width:18px; height:18px; stroke:var(--icon); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .hint { text-align:center; color:var(--dim); font-size:13px; margin:0 0 40px; }
+  .panel { display:none; }
+  #t1:checked ~ .panels .p1, #t2:checked ~ .panels .p2, #t3:checked ~ .panels .p3 { display:block; animation:fade .35s ease; }
+  #t1:checked ~ .pills label[for=t1], #t2:checked ~ .pills label[for=t2], #t3:checked ~ .pills label[for=t3] { background:rgba(255,255,255,.14); color:#fff; box-shadow:0 4px 14px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.22); }
+  #t1:focus-visible ~ .pills label[for=t1], #t2:focus-visible ~ .pills label[for=t2], #t3:focus-visible ~ .pills label[for=t3] { outline:2px solid var(--accent); outline-offset:2px; }
+  @keyframes fade { from { opacity:.3; } to { opacity:1; } }
+
+  /* Cards */
+  .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .card { background:var(--card); border-radius:20px; padding:24px 28px; }
+  .card.selected { box-shadow:0 0 0 1.5px var(--accent), 0 0 36px rgba(var(--accent-rgb),.35); background:#241810; }
+  .head { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+  .ic { width:40px; height:40px; flex:none; border-radius:12px; background:rgba(var(--accent-rgb),.18); display:grid; place-items:center; }
+  .ic svg, .li svg { stroke:var(--icon); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .ic svg { width:20px; height:20px; }
+  .t { margin:0; font:600 19px/1.25 "Inter",-apple-system,sans-serif; letter-spacing:-.01em; }
+  .d { margin:0 0 14px; color:var(--mid); font-size:15px; line-height:1.45; }
+  .li { display:flex; align-items:flex-start; gap:12px; margin:8px 0 0; font-size:16px; }
+  .li svg { width:18px; height:18px; flex:none; margin-top:3px; }
+  .tag { margin-left:auto; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:600; background:var(--accent); color:#fff; }
+  h2 { font:400 30px/1.15 var(--serif); letter-spacing:-.01em; margin:0 0 6px; }
+  .sub { color:var(--mid); margin:0 0 22px; }
+  .legend { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; color:var(--mid); font-size:14px; margin:0 0 24px; }
+
+  /* Before and after phones */
+  .pair { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:28px; }
+  .stagecard { background:var(--card); border-radius:20px; padding:24px 16px 28px; display:flex; flex-direction:column; align-items:center; }
+  .lab { font-size:13px; color:var(--mid); margin:0 0 16px; letter-spacing:.04em; }
+  .phone { width:262px; height:520px; border-radius:38px; background:#151314; border:7px solid #2a2a2e; position:relative; overflow:hidden; font-size:12px; box-shadow:0 14px 40px rgba(0,0,0,.5); }
+  .island { position:absolute; top:8px; left:50%; transform:translateX(-50%); width:70px; height:20px; border-radius:12px; background:#000; z-index:2; }
+  .bar { background:var(--accent); padding:12px 16px 12px; }
+  .status { display:flex; justify-content:space-between; font-size:11px; font-weight:600; margin:2px 4px 14px; }
+  .nav { display:flex; align-items:center; gap:12px; font-weight:600; font-size:15px; }
+  .body { padding:6px 14px; }
+  .fld { display:grid; grid-template-columns:70px 1fr; gap:8px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.18); align-items:center; }
+  .fld b { font-weight:500; color:#d08a3c; font-size:12px; line-height:1.25; }
+  .fld span { color:#8b8b90; font-size:12px; }
+  .note { display:grid; grid-template-columns:20px 1fr; gap:10px; margin:12px 0 0; color:#c9c9cf; font-size:11.5px; line-height:1.4; }
+  .note i { width:18px; height:18px; border:1.5px solid #ddd; border-radius:50%; display:grid; place-items:center; font-style:normal; font-size:11px; font-weight:700; }
+  .box { background:#241810; border:1px solid rgba(var(--accent-rgb),.5); border-radius:12px; padding:10px; margin:12px 14px 0; }
+  .btn { position:absolute; left:14px; right:14px; bottom:22px; height:48px; border-radius:6px; background:#2e2e30; display:grid; place-items:center; color:#fff; font-weight:600; font-size:13px; }
+  .btn.after { background:var(--offwhite); color:#111; border-radius:999px; }
+  .spin { width:22px; height:22px; border:2.5px solid #ddd; border-right-color:transparent; border-radius:50%; }
+  .home { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); width:90px; height:4px; border-radius:2px; background:#fff; opacity:.9; }
+
+  /* Numbered changes */
+  .row { display:grid; grid-template-columns:44px 1fr; gap:14px; padding:22px 0; border-top:1px solid var(--line); }
+  .row:first-of-type { border-top:0; }
+  .num { width:32px; height:32px; border-radius:50%; background:var(--chip); display:grid; place-items:center; font-size:14px; font-weight:600; color:#ddd; }
+  .row strong { display:block; font-weight:600; font-size:18px; margin-bottom:4px; }
+  .row p { margin:0 0 10px; color:var(--mid); }
+  .row .copy { color:#fff; font-family:var(--serif); font-size:17px; line-height:1.4; margin:0 0 10px; }
+  .chipline { display:flex; flex-wrap:wrap; gap:8px; }
+
+  .prin { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:0 0 28px; }
+  .prin div { background:var(--card); border-radius:16px; padding:16px 20px; }
+  .prin b { display:block; font-weight:600; margin-bottom:2px; }
+  .prin span { color:var(--mid); font-size:14.5px; }
+  .read h3 { font:400 24px/1.2 var(--serif); margin:34px 0 10px; }
+  .read p { color:#d6d6dc; margin:0 0 12px; max-width:760px; }
+  .quote { font-family:var(--mono); font-size:14px; background:var(--card2); padding:2px 8px; border-radius:6px; }
+  .float { position:sticky; bottom:20px; z-index:10; display:block; margin:28px auto 0; width:min(100%,460px); padding:16px; text-align:center; font-weight:600; font-size:17px; color:#fff; cursor:pointer; background:rgba(255,255,255,.08); -webkit-backdrop-filter:blur(22px) saturate(1.6); backdrop-filter:blur(22px) saturate(1.6); border:1px solid rgba(255,255,255,.14); border-radius:999px; box-shadow:0 12px 40px rgba(0,0,0,.55), 0 0 28px rgba(var(--accent-rgb),.18), inset 0 1px 0 rgba(255,255,255,.18); }
+  footer { margin-top:36px; color:var(--dim); font-size:13px; text-align:center; max-width:640px; margin-left:auto; margin-right:auto; }
+  footer a { color:var(--mid); }
+  @media (max-width:760px) { .grid, .pair, .prin { grid-template-columns:1fr; } .stage { margin:0; border-radius:0; padding:48px 16px 32px; } .pills label { padding:8px 12px; font-size:14px; } .pills label svg { display:none; } }
+</style>
+</head>
+<body>
+<div class="stage">
+  <header>
+    <p class="eyebrow">UX review</p>
+    <h1>Blixt</h1>
+    <p class="lede">A review of your Receive screen, against the Twibbit 10 principles and the Bitcoin Design Guide.</p>
+    <div class="meta"><span class="chip light">Mobile</span><span class="chip">Lightning</span><span class="chip">Experienced users</span><span class="chip">Guide version e6d682e</span></div>
+  </header>
+
+  <div class="tabs">
+    <input type="radio" name="tab" id="t1" checked>
+    <input type="radio" name="tab" id="t2">
+    <input type="radio" name="tab" id="t3">
+    <div class="pills">
+      <label for="t1"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg>Summary</label>
+      <label for="t2"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 18h2"/></svg>Receive</label>
+      <label for="t3"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>Full review</label>
+    </div>
+    <p class="hint">Tap a screen</p>
+
+    <div class="panels">
+      <!-- SUMMARY -->
+      <section class="panel p1">
+        <div class="grid">
+          <div class="card selected" style="grid-column:1/-1">
+            <div class="head"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16h.01"/><circle cx="12" cy="12" r="8"/></svg></span><h3 class="t">The one thing to know</h3><span class="tag">Most important</span></div>
+            <p class="d">Your Receive screen tells people they cannot receive yet, but not why, how long it takes or what it costs.</p>
+            <div class="li"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Someone sees "Before you can receive, you need to open a Lightning channel." and has to guess the rest.</div>
+          </div>
+          <div class="card">
+            <div class="head"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><h3 class="t">Top three fixes</h3></div>
+            <p class="d">In order of importance.</p>
+            <div class="li"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Explain the channel, the time and the cost (1)</div>
+            <div class="li"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Label the button that only shows a spinner (2)</div>
+            <div class="li"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Show the notice before the fields (3)</div>
+          </div>
+          <div class="card">
+            <div class="head"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><h3 class="t">What is working well</h3></div>
+            <p class="d">Keep these.</p>
+            <div class="li"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>The screen says there is a blocker, not nothing</div>
+            <div class="li"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Two amount fields, in sats and in dollars</div>
+            <div class="li"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>A clear title and a back arrow</div>
+          </div>
+        </div>
+        <p class="sub" style="margin-top:22px;text-align:center">I can only see this one screen, so I cannot say how the wallet works inside. Add your own reactions. You know your users, and I apply the 10 principles the same way every time.</p>
+        <label class="float" for="t2">Next: Receive</label>
+      </section>
+
+      <!-- RECEIVE -->
+      <section class="panel p2">
+        <h2>Receive</h2>
+        <p class="sub">The mockups are rough sketches drawn from your screenshot, not final designs.</p>
+        <div class="pair">
+          <div class="stagecard"><p class="lab">Before</p>
+            <div class="phone"><div class="island"></div>
+              <div class="bar"><div class="status"><span>13:34</span><span>▂▄▆ 100%</span></div><div class="nav"><span>←</span><span>Receive</span></div></div>
+              <div class="body">
+                <div class="fld"><b>Amount<br>sat</b><span>0</span></div>
+                <div class="fld"><b>Amount<br>USD</b><span>0.00</span></div>
+                <div class="fld"><b>Payer</b><span>For bookkeeping</span></div>
+                <div class="fld"><b>Message</b><span>Message to payer</span></div>
+                <div class="note"><i>!</i><span>Before you can receive, you need to open a Lightning channel.</span></div>
+              </div>
+              <div class="btn"><div class="spin"></div></div><div class="home"></div>
+            </div>
+          </div>
+          <div class="stagecard"><p class="lab">After</p>
+            <div class="phone"><div class="island"></div>
+              <div class="bar"><div class="status"><span>13:34</span><span>▂▄▆ 100%</span></div><div class="nav"><span>←</span><span>Receive</span></div></div>
+              <div class="box"><div class="note" style="margin:0"><i>!</i><span><b>First, set up a channel.</b> A channel is your connection to the Lightning network. It takes about [X] minutes and costs [X] sats.</span></div></div>
+              <div class="body">
+                <div class="fld"><b>Amount<br>(sats)</b><span>0</span></div>
+                <div class="fld"><b>Amount<br>(USD)</b><span>0.00</span></div>
+                <div class="fld"><b>Who is paying you?</b><span>Only you see this [confirm]</span></div>
+                <div class="fld"><b>Message</b><span>A note for the payer</span></div>
+              </div>
+              <div class="btn after"><span style="display:flex;align-items:center;gap:8px"><span class="spin" style="width:14px;height:14px;border-color:#111;border-right-color:transparent"></span>Setting up your channel</span></div><div class="home"></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="legend"><span class="src guide">Guide ↗</span> a Bitcoin Design Guide page <span class="src p">P4 Jargon</span> a Twibbit principle <span class="src ai">AI</span> my own idea, no outside source</p>
+
+        <div class="row"><div class="num">1</div><div>
+          <strong>Say why, how long and how much</strong>
+          <p>Someone who just tapped Receive wants to get paid, not to open a channel. Tell them what a channel is in one plain line, then give the wait and the cost, so there are no surprises. Please fill in the real time and fee. I do not know them.</p>
+          <p class="copy">“First, set up a channel. A channel is your connection to the Lightning network. It takes about [X] minutes and costs [X] sats.”</p>
+          <div class="chipline"><a class="src guide" href="https://bitcoin.design/guide/case-studies/blixt-wallet/">Guide: Blixt case study ↗</a><a class="src guide" href="https://bitcoin.design/guide/daily-spending-wallet/requesting/receiving/">Guide: Receiving ↗</a><span class="src p">P4 Jargon</span><span class="src p">P9 Education</span></div>
+        </div></div>
+
+        <div class="row"><div class="num">2</div><div>
+          <strong>Give the button a label</strong>
+          <p>The button at the bottom shows only a spinning circle. People will wonder if the app is working, stuck or waiting for them. Say what is happening and for how long. I can only see this screen, so please check what the spinner is really doing.</p>
+          <p class="copy">“Setting up your channel”</p>
+          <div class="chipline"><span class="src p">P7 Visible state</span><span class="src ai">Framework finding, no Guide source</span></div>
+        </div></div>
+
+        <div class="row"><div class="num">3</div><div>
+          <strong>Show the notice before the fields</strong>
+          <p>Right now a person fills in an amount and a message, and only then reads that they cannot receive yet. Putting the notice first, in a card, lets them know before they spend effort. It also makes the channel step feel like a normal first step, not an error.</p>
+          <div class="chipline"><a class="src guide" href="https://bitcoin.design/guide/daily-spending-wallet/requesting/receiving/">Guide: Receiving ↗</a><span class="src p">P3 First use</span><span class="src p">P7 Visible state</span></div>
+        </div></div>
+
+        <div class="row"><div class="num">4</div><div>
+          <strong>Make the amount labels easier to read</strong>
+          <p>“Amount sat” breaks over two lines, and “sat” is a word many people do not know. Use one line with the unit in brackets. The Guide also suggests letting people pick their unit, so this could become a switch later.</p>
+          <p class="copy">“Amount (sats)”  ·  “Amount (USD)”</p>
+          <div class="chipline"><a class="src guide" href="https://bitcoin.design/guide/designing-products/units-and-symbols/">Guide: Units and symbols ↗</a><span class="src p">P4 Jargon</span><span class="src p">P6 User range</span></div>
+        </div></div>
+
+        <div class="row"><div class="num">5</div><div>
+          <strong>Make “Payer” and its hint clearer</strong>
+          <p>“Payer” is a word a non native English speaker may not know. “For bookkeeping” does not say who can see it. Tell people it is only for them, if that is true. Please confirm how the wallet really treats this field before you use my line.</p>
+          <p class="copy">“Who is paying you?”  ·  “Only you see this”</p>
+          <div class="chipline"><span class="src p">P4 Jargon</span><span class="src ai">AI</span></div>
+        </div></div>
+        <label class="float" for="t3">Next: Full review</label>
+      </section>
+
+      <!-- FULL REVIEW -->
+      <section class="panel p3 read">
+        <h2>Part 1: Framework review</h2>
+        <p class="sub">The Twibbit 10 principles. All ten, with the ones that did not apply to this screen marked.</p>
+        <div class="prin">
+          <div><b>1. Mistakes are permanent</b><span>Prevent errors before they happen. Not applied here, there is no payment being sent.</span></div>
+          <div><b>2. Trust is everything</b><span>Every screen answers: is my money safe and is everything okay?</span></div>
+          <div><b>3. Onboarding is a crisis point</b><span>The first run is when people make serious mistakes. See change 3.</span></div>
+          <div><b>4. Jargon kills adoption</b><span>Every jargon word is a person who gives up. See changes 1, 4 and 5.</span></div>
+          <div><b>5. Progressive disclosure</b><span>Show the simple version first. Not applied here.</span></div>
+          <div><b>6. Extreme user range</b><span>Work for beginners and experts. See change 4.</span></div>
+          <div><b>7. Invisible tech, visible state</b><span>Always show what is happening now. See changes 2 and 3.</span></div>
+          <div><b>8. Security vs usability</b><span>Confirmations should earn their place. Not applied here.</span></div>
+          <div><b>9. Education is part of the UX</b><span>The app has to teach as people go. See change 1.</span></div>
+          <div><b>10. Password protection</b><span>Nobody can reset a lost seed phrase. Not applied here.</span></div>
+        </div>
+        <h3>First impressions</h3>
+        <p>The words on this screen are short and direct, which is good. But three of them stop a newcomer: <span class="quote">Lightning channel</span>, <span class="quote">sat</span> and <span class="quote">Payer</span>. The screen does not use the same tone throughout. The notice is a full sentence, while the labels are single words.</p>
+        <p>Two checks I could not finish from a screenshot. The orange labels and the grey hints on the near black background may be hard to read, please check the contrast. And I could not tell what the bottom spinner is waiting for.</p>
+        <p>On privacy, the “Payer” and “Message” fields suggest the other person may see what you type. Please confirm what is shared, then say it on the screen.</p>
+
+        <h2 style="margin-top:44px">Part 2: Bitcoin Design Guide</h2>
+        <h3>Receiving</h3>
+        <p>The Guide says that to receive over Lightning, a person needs a channel with enough room to receive, and that any extra fee for opening one should be shown when they create a request, before they share it. Your screen mentions the channel but not the fee. See change 1. <a class="src guide" href="https://bitcoin.design/guide/daily-spending-wallet/requesting/receiving/">Receiving ↗</a></p>
+        <h3>Explaining channels</h3>
+        <p>The Blixt case study says newcomers are missing the “why”, and that saying how long opening a channel takes sets a clear expectation. It also suggests short text, because many users are not native English speakers. See change 1. <a class="src guide" href="https://bitcoin.design/guide/case-studies/blixt-wallet/">Blixt case study ↗</a></p>
+        <h3>Units</h3>
+        <p>For Lightning wallets the Guide suggests satoshi as the default unit, a way for people to pick their own unit, and an easy way to show local currency. Your screen already shows sats and dollars. See change 4. <a class="src guide" href="https://bitcoin.design/guide/designing-products/units-and-symbols/">Units and symbols ↗</a></p>
+        <label class="float" for="t1">Back to Summary</label>
+      </section>
+    </div>
+  </div>
+
+  <footer>The mockups are rough sketches drawn from your screenshot, not final designs. Guide credit: Bitcoin Design Community, <a href="https://bitcoin.design/guide/">bitcoin.design/guide</a>, commit e6d682e.</footer>
+</div>
+</body>
+</html>

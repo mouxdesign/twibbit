@@ -26,7 +26,7 @@ Speak in a confident, plain and direct voice, like a senior designer talking to 
 
 ## Before you start
 
-1. Read `TWIBBIT.md` in the project root if it exists. Use the platform, the audience, their bitcoin experience level and the screens to review first. If it does not exist, ask the builder for: what the app does, who it is for, the platform, and whether it is a new or existing product. Do not guess.
+1. Read `TWIBBIT.md` in the project root if it exists. Use the platform, the audience, their bitcoin experience level, the primary colour and the screens to review first. If it does not exist, ask the builder for: what the app does, who it is for, the platform, and whether it is a new or existing product. Do not guess.
 2. Look at every screenshot the builder gave you. Say in one line what each screen is. If a screenshot looks like a different platform to the one the builder named, say so and ask.
 3. Decide which flow each screen belongs to, then use only the matching reference section at the end of this file:
    - Welcome, create wallet, restore wallet, first launch: the reference section "onboarding" at the end of this file
@@ -61,7 +61,7 @@ Apply two lenses throughout:
 
 Every finding and every recommendation must end with a source. Use exactly one of these labels:
 
-- **Guide (green tag in the visual):** a Bitcoin Design Guide page, with its link and, where the reference file gives one, the image link. Only cite a page that appears in a reference file in this skill. Never invent a Guide page, quote or image.
+- **Guide (off-white link pill in the visual):** a Bitcoin Design Guide page, with its link and, where the reference file gives one, the image link. Only cite a page that appears in a reference file in this skill. Never invent a Guide page, quote or image.
 - **Wallet:** a named wallet, only if the builder or a reference file gives you specifics. Do not describe how another wallet works from memory.
 - **Framework:** one of the 10 principles above, with no outside source. Say "Framework finding, no Guide source."
 - **AI suggestion:** your own idea with no source. Say so plainly.
@@ -84,10 +84,10 @@ Produce **one file**: `ux-review-[app-name].html`, saved in the project root. It
 
 The file has these parts, in one page, in this order. Use plain words, short sentences and no dashes in prose.
 
-1. **Header.** The app name, one short grey sentence, the platform and audience (from `TWIBBIT.md` or the builder), the Guide version used, and the pill bar for switching screens (see Visual output).
-2. **Summary.** The single most important thing the builder should know, then the top three fixes, then what is working well.
+1. **Header.** The app name, one short grey sentence, the platform and audience (from `TWIBBIT.md` or the builder), the Guide version used, and the pill bar for switching tabs (see Visual output): Summary first, then one pill per reviewed screen, then Full review last.
+2. **Summary tab.** The single most important thing the builder should know, then the top three fixes, then what is working well.
 3. **One tab per reviewed screen**, in the order a user meets them. Each tab has the before and after phones and the numbered changes with their source tags (see Visual output).
-4. **Full written review**, at the bottom:
+4. **Full review tab**, last:
    - **Part 1: Framework review (Twibbit 10 principles).** List all 10 principles with their one line explanations, then first impressions (copy quality and consistency), then findings by screen. Each finding has the same number as in the visual, a short plain title, the principle number, and a short natural paragraph covering what you noticed, why it matters and what to try, ending with its Source. Write it as talk, not as a form.
    - **Part 2: Bitcoin Design Guide comparison.** For each screen with a matching reference section: what the Guide recommends, with link, then what the screen does, then a suggested change. If a Part 1 finding is backed by the Guide, write "See finding N" and do not repeat it.
 5. **Footer.** The line that the mockups are rough sketches, and the Guide credit.
@@ -100,9 +100,11 @@ Always include a visual of your suggestions in the HTML file. Use before and aft
 
 Every numbered change must carry a source tag, so the builder can see where each suggestion comes from:
 
-- **Green tag, "Guide":** a Bitcoin Design Guide page. Make it a clickable link to that page. Use only pages that appear in a reference section of this file.
-- **Purple tag, "P" plus the number:** the Twibbit 10 principle behind the change, for example "P4 Jargon".
-- **Grey tag, "AI":** your own suggestion with no outside source.
+- **Off-white pill with an arrow, "Guide":** a Bitcoin Design Guide page. Make it a clickable link to that page. Use only pages that appear in a reference section of this file.
+- **Dark grey pill, "P" plus the number:** the Twibbit 10 principle behind the change, for example "P4 Jargon".
+- **Dashed outline pill, "AI":** your own suggestion with no outside source.
+
+The tags are neutral on purpose. The builder's screenshots bring their own colours, so the page adds none of its own beyond the one accent.
 
 Layout rules for every design you suggest, in the written review and in the mockups. Bad alignment makes a good idea look careless, so check these before you show anything:
 - Pick one alignment for each block and keep it. Either everything is left aligned to the same edge, or everything is centred. Never mix the two inside one card.
@@ -116,26 +118,30 @@ Layout rules for every design you suggest, in the written review and in the mock
 Rules for the visual:
 - Draw every screen inside a realistic phone frame, not a plain box: rounded bezel, camera cutout, status bar with the time and battery, and a home indicator bar. Use the builder's real screen colours and copy. Match the frame to the platform the builder named, and keep both phones in a pair the same size.
 - Never show a change without a source tag. A visual with no sources is not finished. Both the Twibbit principle and the Guide (where one exists) must be shown, because the builder expects the review to use both.
-- Every finding in the written review that changes what a screen looks like gets a number in the visual, using the same number as in the review. Do not leave any out. Keep the number badges in the notes neutral grey so they do not compete with the green, purple and grey source tags.
+- Every finding in the written review that changes what a screen looks like gets a number in the visual, using the same number as in the review. Do not leave any out. Keep the number badges in the notes neutral grey so they do not compete with the source tags.
 - Show the tags next to each note, with the Guide tag as a link. Put the written explanation of the change above its tags.
-- Put a one line legend above it that explains the three tags.
-- Most changes should have a purple tag and, where one exists, a green tag. If there is no Guide source, say "Framework finding, no Guide source" next to the purple tag. Never add a green tag without a real Guide page behind it.
+- Put a one line legend above it that explains the three tags, using the same pills.
+- Most changes should have a principle tag and, where one exists, a Guide tag. If there is no Guide source, say "Framework finding, no Guide source" next to the principle tag. Never add a Guide tag without a real Guide page behind it.
 - Where the mockup contains a value you do not know, such as a wait time, show a clear placeholder like "[X] minutes" and tell the builder to fill in a real value.
 - Say in one line that the mockups are rough sketches drawn from the screenshots, not final designs.
 
 ### Visual style
 
-The visual should feel like a premium brand guidelines site: calm, dark, spacious and smooth. Take these principles from the best of them:
-- **One dark stage.** Put the whole visual on a near black canvas with large rounded corners. Everything inside floats on it with generous empty space. Do not fill every gap.
-- **A big quiet headline.** Open with the app name in a very large, light, tightly spaced headline, centred. Under it, one short grey sentence, centred, no more than three lines.
-- **Pill navigation.** Use a rounded pill bar to switch between screens, with one pill per reviewed screen (for example Welcome, Home, Receive) and the small grey line "Tap a screen" under it. The builder must be able to click a pill to go to that screen. The active pill is a soft lighter grey. The others are dim. Show one screen at a time so nothing feels crowded. Build the switching without any script: use hidden radio inputs and `:checked` sibling selectors in CSS, with one label per pill. The first screen is selected when the page opens.
-- **Big rounded cards.** Put each phone, before and after, in its own large card with about 20px rounded corners and plenty of inner padding. Use two cards side by side, with small grey Before and After labels.
-- **One idea per row.** List the changes under the cards. Each row has a small numbered circle, a bold white title, one or two lines of grey explanation, and its source chips. Separate rows with thin hairlines, not boxes.
-- **Source chips as soft pills.** Make every source a small rounded pill with a thin outline and a soft tinted fill. Guide is green and carries a small arrow because it is a link. Twibbit principles are soft violet. AI suggestions are neutral grey. Keep the text in each chip short, for example "P4 Jargon" or "Guide: First use".
-- **One accent only.** Use the builder's own brand colour as the single accent, for the active state and the key callout. Everything else is black, white and greys.
-- **Type that breathes.** Use tight tracking on large text, regular weight, high contrast white on black for titles, and mid grey for supporting text. Keep small labels in a quiet caps or small size.
-- **Thin lines, no clutter.** Use hairline borders and subtle dividers. No heavy shadows, no loud fills, no decoration that does not carry meaning.
-- **Smooth motion.** When the screen changes, use a short fade, never a jump. The page must work with no scripts at all. Never hide content in the base style (no opacity 0 or visibility hidden that an animation has to undo), so the screens are still visible if animation is off or does not run.
+The visual shares the design of the Twibbit brief page (`twibbit-brief.html`): calm, dark, soft and a little glassy. A finished example is in `example-review.html` in this folder. Match its structure and style, and use the builder's own colour and screens.
+- **Dotted dark stage.** A near black canvas (`#0a0a0a`) with a faint grid of small dots, about 32px apart, and a large rounded stage on top. Generous empty space. Do not fill every gap.
+- **A big quiet headline.** The app name in a very large, light serif headline, tightly spaced, centred, with a small grey label above it and one short grey sentence below, no more than three lines. Under that, a few neutral pills for platform, wallet type, audience and Guide version.
+- **Floating glass pill navigation.** A rounded pill bar with a small icon in the accent tint beside each label, built with hidden radio inputs and `:checked` sibling selectors, no script. It stays at the top while scrolling (`position: sticky`) and has a glass look: translucent fill, background blur, a thin light edge, a soft shadow. The active tab is a raised, lighter segment. Add the small grey line "Tap a screen" under it. The first tab is selected when the page opens.
+- **Floating glass button.** At the bottom of each tab, a glass pill button that moves to the next tab ("Next: Receive"), and on the last tab goes back to the first. It sticks to the bottom of the screen while scrolling.
+- **Cards in one colour.** Cards are `#161618` with about 20px rounded corners and generous padding. Cards in the same row are the same size.
+- **Copy hierarchy inside a card.** A small rounded icon beside a bold title, then a grey explanation in regular weight, then the main content in white, then short list lines each with a small icon. Use a serif for headings and big numbers, a monospace for values like codes, and sans for the rest.
+- **Selected state.** The most important card (for example "The one thing to know") has an outline and glow in the accent colour and a slightly lighter fill. Only one card per tab gets it.
+- **One accent only.** Read `Primary colour` from `TWIBBIT.md` and use it as the single accent: icon tints, the glow and the selected outline. If it is missing, ask the builder or use `#6f63f5`. Everything else is black, white and greys.
+- **Neutral pills.** Short facts and sources are pills in off-white (`#eeeee8` with dark text) or dark grey (`#2c2c30` with light text), never a new colour. See the source tags above.
+- **Before and after phones.** Each phone sits in its own card with a Before or After label, in a realistic frame (see the rules above), using the builder's real colours.
+- **One idea per row.** List the changes under the phones. Each row has a small grey numbered circle, a bold white title, one or two lines of grey explanation, the suggested words in the serif font, and its source pills. Separate rows with thin hairlines, not boxes.
+- **Thin lines, no clutter.** Hairline borders and subtle dividers. No loud fills and no decoration that does not carry meaning. No textures.
+- **Smooth motion.** When the tab changes, use a short fade, never a jump. The page must work with no scripts at all. Never hide content in the base style (no opacity 0 or visibility hidden that an animation has to undo), so the screens are still visible if animation is off or does not run.
+- **Works on a phone.** Cards stack to one column on a narrow screen, and the page never scrolls sideways.
 
 
 ## Viewing the review (optional live preview)
